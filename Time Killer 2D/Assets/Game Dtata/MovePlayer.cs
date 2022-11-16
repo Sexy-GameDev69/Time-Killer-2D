@@ -38,5 +38,10 @@ public class MovePlayer : MonoBehaviour
         {
             IsGrounded = true;
         }
+        if (collision.gameObject.CompareTag("KillPlayer"))
+        {
+            Debug.Log("Player Dead");
+            Application.Quit();
+        }
     }
 }
