@@ -8,7 +8,12 @@ public class MovePlayer : MonoBehaviour
     public float JumpForce;
     public Rigidbody2D RB;
 
+    public Vector2 mousePosition;
+    public Camera sceneCamera;
+
     private float horizontal;
+
+    public Weapon weapon;
 
     [SerializeField] KeyCode Jump = KeyCode.Space;
     public bool IsGrounded;
@@ -19,11 +24,19 @@ public class MovePlayer : MonoBehaviour
         {
             jump();
         }
+        mousePosition = sceneCamera.ScreenToWorldPoint(Input.mousePosition);
+        if(Input.GetMouseButtonDown(0))
+        {
+            weapon.Fire();
+        }
     }
 
     private void FixedUpdate()
     {
         RB.velocity = new Vector2(horizontal * Speed, RB.velocity.y);
+        Vector2 aimDirection = mousePosition - RB.position;
+        float aimAngle = Mathf.Atan2(aimDirection.y,aimDirection.x)*Mathf.Rad2Deg-90f;
+        RB.rotation = aimAngle;
     }
 
     public void jump()
